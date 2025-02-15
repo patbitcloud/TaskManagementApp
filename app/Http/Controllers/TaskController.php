@@ -14,6 +14,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
+        $user = Auth::user(); // Get logged-in user
         $query = Task::query();
 
         if ($request->has('status') && $request->status !== '') {
@@ -24,6 +25,13 @@ class TaskController extends Controller
             }
         }
         $tasks = $query->where('created_by_user_id', Auth::id())->paginate(10);
+
+        // If request is from API (expects JSON), return JSON
+        if (request()->wantsJson()) {
+            return response()->json(['data' => $tasks], 200);
+        }
+
+        // Otherwise, return Blade view
         return view('tasks.index', compact('tasks'));
     }
 
@@ -33,6 +41,7 @@ class TaskController extends Controller
     public function create()
     {
         $users = User::all();
+        
         return view('tasks.create', compact('users'));
     }
 
@@ -66,7 +75,8 @@ class TaskController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $task = Task::findOrFail($id);
+        return response()->json($task, 200);
     }
 
     /**
@@ -76,6 +86,10 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
         $users = User::all(); // Fetch users for the assigned_user_id dropdown
+        // If request is from API (expects JSON), return JSON
+        if (request()->wantsJson()) {
+            return response()->json($task, 200);
+        }
         return view('tasks.edit', compact('task', 'users'));
     }
 
@@ -85,15 +99,20 @@ class TaskController extends Controller
     public function update(Request $request, string $id)
     {
         $task = Task::findOrFail($id);
-        $request->validate([
+        $validatedData = $request->validate([
             'title' => 'required',
             'description' => 'nullable',
             'due_date' => 'nullable|date',
             'status' => 'required|in:pending,in_progress,completed',
             'assigned_user_id' => 'nullable|exists:users,id',
         ]);
+    
+        $task->update($validatedData);
 
-        $task->update($request->all());
+        // If request is from API (expects JSON), return JSON
+        if (request()->wantsJson()) {
+            return response()->json($task, 200);
+        }
 
         return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
     }
@@ -105,6 +124,12 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
         $task->delete();
+
+        // If it's an API request, return a 204 response
+        if (request()->wantsJson()) {
+            return response()->noContent();
+        }
+
         return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');
     }
 }

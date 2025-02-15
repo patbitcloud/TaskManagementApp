@@ -20,13 +20,23 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <div class="flex justify-end">
-                @auth
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-danger">Logout</button>
-                    </form>
-                @endauth
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    @auth
+                        <li class="nav-item">
+                            <span class="nav-link">Hello, {{ Auth::user()->name }}!</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </li>
+                    @endauth
+                </ul>
             </div>
         </div>
     </nav>
