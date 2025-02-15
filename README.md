@@ -66,19 +66,26 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## Step by steps
-#git clone
-#cd TaskManagementApp
-#npm install && npm run build
-#composer run dev
+- git clone
+- cd TaskManagementApp
+- npm install && npm run build
+- composer run dev
 
-**For database**, I'm using XAMPP 
+**For database**, 
+- I'm using XAMPP
+- php artisan migrate:fresh --seed
+
+**Default email && password for Admin**
+- Email: admin@example.com
+- Password: password
+
 **env**
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=task_management
-DB_USERNAME=root
-DB_PASSWORD=
+- DB_CONNECTION=mysql
+- DB_HOST=127.0.0.1
+- DB_PORT=3306
+- DB_DATABASE=task_management
+- DB_USERNAME=root
+- DB_PASSWORD=
 
 **Folder location**
-#C:\xampp\htdocs
+- C:\xampp\htdocs
