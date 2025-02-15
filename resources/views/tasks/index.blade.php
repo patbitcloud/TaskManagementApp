@@ -35,7 +35,18 @@
                         <td>{{ $task->title }}</td>
                         <td>{{ $task->description }}</td>
                         <td>{{ $task->due_date }}</td>
-                        <td><span class="badge bg-primary">{{ ucfirst($task->status) }}</span></td>
+                        <td>
+                            @php
+                                $statusClasses = [
+                                    'completed' => 'badge bg-success',
+                                    'pending' => 'badge bg-warning text-dark',
+                                    'in_progress' => 'badge bg-primary',
+                                ];
+                            @endphp
+                            <span class="{{ $statusClasses[$task->status] ?? 'badge bg-secondary' }}">
+                                {{ ucfirst($task->status) }}
+                            </span>
+                        </td>
                         <td>{{ $task->assignedUser->name ?? 'Unassigned' }}</td>
                         <td>
                             <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-warning btn-sm">Edit</a>
