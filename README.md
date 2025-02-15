@@ -64,3 +64,21 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Step by steps
+#git clone
+#cd TaskManagementApp
+#npm install && npm run build
+#composer run dev
+
+**For database**, I'm using XAMPP 
+**env**
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=task_management
+DB_USERNAME=root
+DB_PASSWORD=
+
+**Folder location**
+#C:\xampp\htdocs
