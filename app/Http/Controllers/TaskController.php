@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -22,7 +23,7 @@ class TaskController extends Controller
                 $query->where('status', $request->status);
             }
         }
-        $tasks = $query->paginate(10);
+        $tasks = $query->where('created_by_user_id', Auth::id())->paginate(10);
         return view('tasks.index', compact('tasks'));
     }
 
@@ -48,16 +49,13 @@ class TaskController extends Controller
             'assigned_user_id' => 'nullable|exists:users,id',
         ]);
 
-        // Find the admin user (assuming email is unique)
-        $admin = User::where('email', 'admin@example.com')->first();
-
         Task::create([
             'title' => $request->title,
             'description' => $request->description,
             'due_date' => $request->due_date,
             'status' => $request->status,
             'assigned_user_id' => $request->assigned_user_id,
-            'created_by_user_id' => $admin ? $admin->id : Auth::id(), // Assign to admin or fallback to logged-in user,
+            'created_by_user_id' => Auth::id()
         ]);
 
         return redirect()->route('tasks.index')->with('success', 'Task created successfully.');

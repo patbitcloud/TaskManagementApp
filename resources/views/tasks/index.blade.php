@@ -3,6 +3,9 @@
 @section('content')
 <div class="container mt-4">
     <h1 class="mb-4 text-center">Tasks</h1>
+    @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
     <div class="d-flex justify-content-between mb-3">
         <a href="{{ route('tasks.create') }}" class="btn btn-success">Create Task</a>
         <form method="GET" action="{{ route('tasks.index') }}" class="d-flex">
