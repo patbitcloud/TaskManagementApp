@@ -69,7 +69,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 - git clone
 - cd TaskManagementApp
 - npm install && npm run build
-- composer run dev
+- php artisan serve
 
 **For database**, 
 - I'm using XAMPP
@@ -77,7 +77,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 **Default email && password for Admin**
 - Email: admin@example.com
-- Password: password
+- Password: password (default to all users)
 
 **env**
 - DB_CONNECTION=mysql
