@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Laravel\Sanctum\Sanctum;
 
 class TaskApiTest extends TestCase
@@ -23,7 +24,7 @@ class TaskApiTest extends TestCase
         $this->actingAs($this->user, 'sanctum');
     }
 
-    /** @test */
+   #[Test]
     public function it_creates_a_task()
     {
         $user = User::factory()->create();
@@ -40,7 +41,7 @@ class TaskApiTest extends TestCase
         $response->assertStatus(201);
     }
 
-    /** @test */
+    #[Test]
     public function it_retrieves_a_task()
     {
         $task = Task::factory()->create();
@@ -50,7 +51,7 @@ class TaskApiTest extends TestCase
                  ->assertJson(['id' => $task->id, 'title' => $task->title]);
     }
 
-    /** @test */
+    #[Test]
     public function it_updates_a_task()
     {
         $task = Task::factory()->create();
@@ -66,7 +67,7 @@ class TaskApiTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test */
+    #[Test]
     public function it_deletes_a_task()
     {
         $task = Task::factory()->create();
