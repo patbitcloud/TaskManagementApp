@@ -28,6 +28,7 @@
                     <th>Due Date</th>
                     <th>Status</th>
                     <th>Assigned User</th>
+                    <th>Created By</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -51,6 +52,7 @@
                             </span>
                         </td>
                         <td>{{ $task->assignedUser->name ?? 'Unassigned' }}</td>
+                        <td>{{ $task->creator->name }}</td>
                         <td>
                             <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-warning btn-sm">Edit</a>
                             <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="d-inline">

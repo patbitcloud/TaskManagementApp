@@ -17,14 +17,27 @@ class TaskController extends Controller
         $user = Auth::user(); // Get logged-in user
         $query = Task::query();
 
+        $query->where('assigned_user_id', $user->id)
+            ->orWhereHas('creator', function ($query) use ($user) {
+                $query->where('created_by_user_id', $user->id);
+            });
+
         if ($request->has('status') && $request->status !== '') {
             if ($request->status === 'all') {
                 $query->whereNotNull('status');
             } else {
                 $query->where('status', $request->status);
+                $query1 = Task::where('assigned_user_id', $user->id)
+                    ->where('status', $request->status);
+                $query2 = Task::whereHas('creator', function ($query) use ($user) {
+                    $query->where('created_by_user_id', $user->id);
+                })->where('status', $request->status);
+                $query = $query1->union($query2);
             }
         }
-        $tasks = $query->where('created_by_user_id', Auth::id())->paginate(10);
+        $tasks = $query
+            ->paginate(10);
+        //$tasks = $query->where('created_by_user_id', Auth::id())->paginate(10);
 
         // If request is from API (expects JSON), return JSON
         if (request()->wantsJson()) {
@@ -66,6 +79,10 @@ class TaskController extends Controller
             'assigned_user_id' => $request->assigned_user_id,
             'created_by_user_id' => Auth::id()
         ]);
+
+        if (request()->wantsJson()) {
+            return response()->json(['message' => 'Task created successfully.'], 201);
+        }
 
         return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
     }
@@ -111,7 +128,7 @@ class TaskController extends Controller
 
         // If request is from API (expects JSON), return JSON
         if (request()->wantsJson()) {
-            return response()->json($task, 200);
+            return response()->json(['message' => 'Task updated successfully.'], 200);
         }
 
         return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');

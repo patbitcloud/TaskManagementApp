@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { background-color: #f8f9fa; }
-        .container { max-width: 900px; }
+        .container { max-width: 1200px; }
         .card { border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
         .table { background: #fff; border-radius: 10px; overflow: hidden; }
         .table th { background: #343a40; color: white; }
@@ -21,9 +21,9 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto w-100">
                     @auth
-                        <li class="nav-item">
+                        <li class="nav-item w-100">
                             <span class="nav-link">Hello, {{ Auth::user()->name }}!</span>
                         </li>
                         <li class="nav-item">
